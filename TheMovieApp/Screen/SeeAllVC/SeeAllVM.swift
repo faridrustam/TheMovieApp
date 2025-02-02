@@ -9,6 +9,7 @@ import Foundation
 
 class SeeAllVM {
     var movies: [MovieResult] = []
+    var titleString: String?
     var completion: (() -> Void)?
     
     func configure(movies: [MovieResult]) {

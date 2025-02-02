@@ -77,6 +77,7 @@ extension HomeVC: UICollectionViewDataSource, UICollectionViewDelegate, UICollec
         cell.seeAllAction = { [weak self] in
             let controller = SeeAllVC()
             controller.viewModel.configure(movies: model.items)
+            controller.viewModel.titleString = model.title
             controller.hidesBottomBarWhenPushed = true
             self?.navigationController?.show(controller, sender: nil)
         }
