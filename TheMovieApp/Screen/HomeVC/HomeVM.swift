@@ -41,7 +41,7 @@ class HomeVM {
     }
     
     func getPopular() {
-        manager.request(endpoint: .nowPlaying,
+        manager.request(endpoint: .popular,
                         model: Movie.self) { data, error in
             if let error {
                 self.errorHandler?(error)
@@ -53,7 +53,7 @@ class HomeVM {
     }
     
     func getUpcoming() {
-        manager.request(endpoint: .nowPlaying,
+        manager.request(endpoint: .upcoming,
                         model: Movie.self) { data, error in
             if let error {
                 self.errorHandler?(error)
@@ -65,7 +65,7 @@ class HomeVM {
     }
     
     func getTopRated() {
-        manager.request(endpoint: .nowPlaying,
+        manager.request(endpoint: .topRated,
                         model: Movie.self) { data, error in
             if let error {
                 self.errorHandler?(error)

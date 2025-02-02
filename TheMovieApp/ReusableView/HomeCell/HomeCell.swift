@@ -47,6 +47,7 @@ class HomeCell: UICollectionViewCell {
     }()
     
     private var data: [MovieResult] = []
+    var seeAllAction: (() -> Void)?
     
     //MARK: - Life cycle
     
@@ -82,7 +83,7 @@ class HomeCell: UICollectionViewCell {
     }
     
     @objc private func seeAllButtonTapped() {
-    
+        seeAllAction?()
     }
 }
 
@@ -95,7 +96,10 @@ extension HomeCell: UICollectionViewDataSource, UICollectionViewDelegate, UIColl
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(MovieCell.self)", for: indexPath) as! MovieCell
         let model = data[indexPath.item]
-        cell.configure(movieName: model.title ?? "", year: String(model.releaseDate?.prefix(4) ?? ""), movieImage: model.posterPath ?? "")
+        cell.configure(movieName: model.title ?? "",
+                       year: String(model.releaseDate?.prefix(4) ?? ""),
+                       movieImage: model.posterPath ?? "",
+                       data: data)
         return cell
     }
     

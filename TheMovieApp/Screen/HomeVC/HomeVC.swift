@@ -27,7 +27,7 @@ class HomeVC: UIViewController {
     
     //MARK: - Life cycle
     
-   override func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
         
         configureUI()
@@ -37,15 +37,17 @@ class HomeVC: UIViewController {
     
     fileprivate func configureUI() {
         view.backgroundColor = .systemBackground
+        navigationItem.title = "Movies"
+        navigationController?.navigationBar.prefersLargeTitles = true
     }
     
     fileprivate func configureConstraints() {
         view.addSubview(collection)
         NSLayoutConstraint.activate([
-            collection.topAnchor.constraint(equalTo: view.topAnchor),
-            collection.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            collection.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            collection.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            collection.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            collection.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            collection.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            collection.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
         ])
     }
     
@@ -72,7 +74,12 @@ extension HomeVC: UICollectionViewDataSource, UICollectionViewDelegate, UICollec
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(HomeCell.self)", for: indexPath) as! HomeCell
         let model = viewModel.movieItems[indexPath.row]
         cell.configure(title: model.title, data: model.items)
-        
+        cell.seeAllAction = { [weak self] in
+            let controller = SeeAllVC()
+            controller.viewModel.configure(movies: model.items)
+            controller.hidesBottomBarWhenPushed = true
+            self?.navigationController?.show(controller, sender: nil)
+        }
         return cell
     }
     
