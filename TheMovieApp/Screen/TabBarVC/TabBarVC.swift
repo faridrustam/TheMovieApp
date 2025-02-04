@@ -23,7 +23,7 @@ class TabBarVC: UITabBarController {
         firstVC.tabBarItem.imageInsets = UIEdgeInsets(top: 5, left: 0, bottom: -5, right: 0)
         
         let secondVC = UINavigationController(rootViewController: HomeVC())
-        secondVC.tabBarItem = UITabBarItem(title: "Search", image: UIImage(named: "search"), tag: 2)
+        secondVC.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(named: "person.crop.circle"), tag: 2)
         secondVC.tabBarItem.imageInsets = UIEdgeInsets(top: 5, left: 0, bottom: -5, right: 0)
         
         viewControllers = [firstVC, secondVC]

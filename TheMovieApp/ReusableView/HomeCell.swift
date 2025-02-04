@@ -42,12 +42,13 @@ class HomeCell: UICollectionViewCell {
         collection.translatesAutoresizingMaskIntoConstraints = false
         collection.delegate = self
         collection.dataSource = self
-        collection.register(MovieCell.self, forCellWithReuseIdentifier: "\(MovieCell.self )")
+        collection.register(MovieCell.self, forCellWithReuseIdentifier: "\(MovieCell.self)")
         return collection
     }()
     
     private var data: [MovieResult] = []
     var seeAllAction: (() -> Void)?
+    var movieDetailAction: ((MovieResult) -> Void)?
     
     //MARK: - Life cycle
     
@@ -101,6 +102,10 @@ extension HomeCell: UICollectionViewDataSource, UICollectionViewDelegate, UIColl
                        movieImage: model.posterPath ?? "",
                        data: data)
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        movieDetailAction?(data[indexPath.item])
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

@@ -103,23 +103,37 @@ class SeeAllVC: UIViewController {
     }
     
     @objc private func searchMovies() {
-        
+        viewModel.movieSearchChange(searchTextField: searchField.text ?? "") {
+            self.collection.reloadData()
+        }
     }
 }
 
 extension SeeAllVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        viewModel.movies.count
+        if viewModel.filteredMovies.count > 0 {
+            return viewModel.filteredMovies.count
+        } else {
+            return viewModel.movies.count
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(MovieCell.self)", for: indexPath) as! MovieCell
-        let model = viewModel.movies[indexPath.item]
-        cell.configure(movieName: model.title ?? "",
-                       year: String(model.releaseDate?.prefix(4) ?? ""),
-                       movieImage: model.posterPath ?? "",
-                       data: viewModel.movies)
+        if viewModel.filteredMovies.isEmpty {
+            let model = viewModel.movies[indexPath.item]
+            cell.configure(movieName: model.title ?? "",
+                           year: String(model.releaseDate?.prefix(4) ?? ""),
+                           movieImage: model.posterPath ?? "",
+                           data: viewModel.movies)
+        } else {
+            let model = viewModel.filteredMovies[indexPath.item]
+            cell.configure(movieName: model.title ?? "",
+                           year: String(model.releaseDate?.prefix(4) ?? ""),
+                           movieImage: model.posterPath ?? "",
+                           data: viewModel.filteredMovies)
+        }
         return cell
     }
     

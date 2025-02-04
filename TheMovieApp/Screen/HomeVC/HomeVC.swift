@@ -81,6 +81,13 @@ extension HomeVC: UICollectionViewDataSource, UICollectionViewDelegate, UICollec
             controller.hidesBottomBarWhenPushed = true
             self?.navigationController?.show(controller, sender: nil)
         }
+        cell.movieDetailAction = { [weak self] data in
+            let controller = MovieDetailVC()
+            controller.viewModel.setMovie(movie: data)
+            controller.viewModel.titleString = data.title
+            controller.hidesBottomBarWhenPushed = true
+            self?.navigationController?.show(controller, sender: nil)
+        }
         return cell
     }
     
