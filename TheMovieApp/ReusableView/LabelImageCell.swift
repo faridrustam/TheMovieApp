@@ -8,7 +8,7 @@
 import UIKit
 import SDWebImage
 
-class MovieCell: UICollectionViewCell {
+class LabelImageCell: UICollectionViewCell {
     
     //MARK: UI Elements
     
@@ -25,8 +25,6 @@ class MovieCell: UICollectionViewCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
-    
-    private var data = [MovieResult]()
     
     //MARK: - Life cycle
     
@@ -62,9 +60,8 @@ class MovieCell: UICollectionViewCell {
             ])
     }
     
-    func configure(movieName: String, year: String, movieImage: String, data: [MovieResult]) {
-        movieNameLabel.text = "\(movieName) (\(year))"
-        movieImageView.sd_setImage(with: URL(string: "https://image.tmdb.org/t/p/w500/\(movieImage)"))
-        self.data = data
+    func configure(data: LabelImageCellProtocol) {
+        movieNameLabel.text = "\(data.titleText)"
+        movieImageView.loadImage(url: data.imageURL)
     }
 }

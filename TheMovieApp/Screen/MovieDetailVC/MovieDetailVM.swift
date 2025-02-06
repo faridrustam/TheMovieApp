@@ -13,6 +13,5 @@ class MovieDetailVM {
     
     func setMovie(movie: MovieResult) {
         self.movie = movie
-        print(movie)
     }
 }

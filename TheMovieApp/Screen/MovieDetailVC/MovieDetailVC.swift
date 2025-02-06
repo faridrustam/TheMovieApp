@@ -19,7 +19,7 @@ class MovieDetailVC: UIViewController {
         collection.dataSource = self
         collection.delegate = self
         collection.register(MovieDetailHeaderCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "\(MovieDetailHeaderCell.self)")
-        collection.register(MovieCell.self, forCellWithReuseIdentifier: "\(MovieCell.self)")
+        collection.register(SimilarMoviesCell.self, forCellWithReuseIdentifier: "\(SimilarMoviesCell.self)")
         return collection
     }()
     
@@ -37,6 +37,7 @@ class MovieDetailVC: UIViewController {
     private func configureUI() {
         view.backgroundColor = .systemBackground
         title = viewModel.titleString ?? ""
+        navigationController?.navigationBar.prefersLargeTitles = false
     }
     
     private func configureConstraints() {
@@ -51,14 +52,13 @@ class MovieDetailVC: UIViewController {
 }
 
 extension MovieDetailVC: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        2
+        1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(MovieCell.self)", for: indexPath)
-        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(SimilarMoviesCell.self)", for: indexPath) as! SimilarMoviesCell
+        cell.movieId = viewModel.movie?.id ?? 0
         return cell
     }
     
@@ -74,9 +74,9 @@ extension MovieDetailVC: UICollectionViewDataSource, UICollectionViewDelegate, U
         return header
     }
     
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        .init(width: <#T##CGFloat#>, height: <#T##CGFloat#>)
-//    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        .init(width: collectionView.frame.width, height: 320)
+    }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         .init(width: collectionView.frame.width, height: 400)

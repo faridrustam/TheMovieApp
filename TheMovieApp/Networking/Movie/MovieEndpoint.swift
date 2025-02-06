@@ -7,14 +7,14 @@
 
 import Foundation
 
-enum EncodingType {
-    case url
-    case json
-}
-
-enum Endpoint: String, CaseIterable {
+enum MovieEndpoint: String, CaseIterable {
     case nowPlaying = "movie/now_playing"
     case popular = "movie/popular"
     case topRated = "movie/top_rated"
     case upcoming = "movie/upcoming"
+    case similar = "similar"
+    
+    var path: String {
+        NetworkHelper.shared.configureURL(endpoint: self.rawValue)
+    }
 }

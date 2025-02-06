@@ -47,7 +47,7 @@ class SeeAllVC: UIViewController {
         collection.delegate = self
         collection.dataSource = self
         collection.translatesAutoresizingMaskIntoConstraints = false
-        collection.register(MovieCell.self, forCellWithReuseIdentifier: "\(MovieCell.self)")
+        collection.register(LabelImageCell.self, forCellWithReuseIdentifier: "\(LabelImageCell.self)")
         return collection
     }()
     
@@ -120,21 +120,23 @@ extension SeeAllVC: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(MovieCell.self)", for: indexPath) as! MovieCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(LabelImageCell.self)", for: indexPath) as! LabelImageCell
         if viewModel.filteredMovies.isEmpty {
-            let model = viewModel.movies[indexPath.item]
-            cell.configure(movieName: model.title ?? "",
-                           year: String(model.releaseDate?.prefix(4) ?? ""),
-                           movieImage: model.posterPath ?? "",
-                           data: viewModel.movies)
+            cell.configure(data: viewModel.movies[indexPath.item])
         } else {
-            let model = viewModel.filteredMovies[indexPath.item]
-            cell.configure(movieName: model.title ?? "",
-                           year: String(model.releaseDate?.prefix(4) ?? ""),
-                           movieImage: model.posterPath ?? "",
-                           data: viewModel.filteredMovies)
+            cell.configure(data: viewModel.filteredMovies[indexPath.item])
         }
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let controller = MovieDetailVC()
+        if viewModel.filteredMovies.isEmpty {
+            controller.viewModel.movie = viewModel.movies[indexPath.item]
+        } else {
+            controller.viewModel.movie = viewModel.filteredMovies[indexPath.item]
+        }
+        navigationController?.show(controller, sender: nil)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

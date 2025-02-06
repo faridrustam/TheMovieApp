@@ -42,7 +42,7 @@ class HomeCell: UICollectionViewCell {
         collection.translatesAutoresizingMaskIntoConstraints = false
         collection.delegate = self
         collection.dataSource = self
-        collection.register(MovieCell.self, forCellWithReuseIdentifier: "\(MovieCell.self)")
+        collection.register(LabelImageCell.self, forCellWithReuseIdentifier: "\(LabelImageCell.self)")
         return collection
     }()
     
@@ -95,12 +95,8 @@ extension HomeCell: UICollectionViewDataSource, UICollectionViewDelegate, UIColl
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(MovieCell.self)", for: indexPath) as! MovieCell
-        let model = data[indexPath.item]
-        cell.configure(movieName: model.title ?? "",
-                       year: String(model.releaseDate?.prefix(4) ?? ""),
-                       movieImage: model.posterPath ?? "",
-                       data: data)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(LabelImageCell.self)", for: indexPath) as! LabelImageCell
+        cell.configure(data: data[indexPath.item])
         return cell
     }
     

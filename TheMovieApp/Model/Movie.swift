@@ -27,7 +27,19 @@ struct Dates: Codable {
 }
 
 // MARK: - Result
-struct MovieResult: Codable {
+struct MovieResult: Codable, LabelImageCellProtocol {
+    var titleText: String {
+        "\(title ?? "") (\(String(yearText.prefix(4))))"
+    }
+    
+    var yearText: String {
+        releaseDate ?? ""
+    }
+    
+    var imageURL: String {
+        posterPath ?? ""
+    }
+    
     let adult: Bool?
     let backdropPath: String?
     let genreIDS: [Int]?

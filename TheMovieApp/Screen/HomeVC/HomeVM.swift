@@ -22,55 +22,18 @@ class HomeVM {
     var errorHandler: ((String) -> Void)?
     
     func getAllData() {
-        getPopular()
-        getUpcoming()
-        getTopRated()
-        getNowPlaying()
+        fetchMovies(endpoint: .nowPlaying, title: "Now Playing")
+        fetchMovies(endpoint: .popular, title: "Popular")
+        fetchMovies(endpoint: .upcoming, title: "Upcoming")
+        fetchMovies(endpoint: .topRated, title: "Top Rated")
     }
     
-    func getNowPlaying() {
-        manager.request(endpoint: .nowPlaying,
-                        model: Movie.self) { data, error in
+    func fetchMovies(endpoint: MovieEndpoint, title: String) {
+        manager.request(path: endpoint.path, model: Movie.self) { data, error in
             if let error {
                 self.errorHandler?(error)
             } else if let data {
-                self.movieItems.append(.init(title: "Now Playing", items: data.results ?? []))
-                self.success?()
-            }
-        }
-    }
-    
-    func getPopular() {
-        manager.request(endpoint: .popular,
-                        model: Movie.self) { data, error in
-            if let error {
-                self.errorHandler?(error)
-            } else if let data {
-                self.movieItems.append(.init(title: "Popular", items: data.results ?? []))
-                self.success?()
-            }
-        }
-    }
-    
-    func getUpcoming() {
-        manager.request(endpoint: .upcoming,
-                        model: Movie.self) { data, error in
-            if let error {
-                self.errorHandler?(error)
-            } else if let data {
-                self.movieItems.append(.init(title: "Upcoming", items: data.results ?? []))
-                self.success?()
-            }
-        }
-    }
-    
-    func getTopRated() {
-        manager.request(endpoint: .topRated,
-                        model: Movie.self) { data, error in
-            if let error {
-                self.errorHandler?(error)
-            } else if let data {
-                self.movieItems.append(.init(title: "Top Rated", items: data.results ?? []))
+                self.movieItems.append(.init(title: title, items: data.results ?? []))
                 self.success?()
             }
         }
