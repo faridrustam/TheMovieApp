@@ -126,31 +126,37 @@ class MovieDetailHeaderCell: UICollectionReusableView {
             backgroundImage.widthAnchor.constraint(equalTo: widthAnchor),
             backgroundImage.heightAnchor.constraint(equalToConstant: 250),
             backgroundImage.topAnchor.constraint(equalTo: topAnchor),
+            
             posterImage.centerXAnchor.constraint(equalTo: centerXAnchor),
             posterImage.widthAnchor.constraint(equalToConstant: 150),
             posterImage.heightAnchor.constraint(equalToConstant: 220),
             posterImage.topAnchor.constraint(equalTo: topAnchor, constant: 80),
+            
             movieName.topAnchor.constraint(equalTo: posterImage.bottomAnchor, constant: 12),
             movieName.centerXAnchor.constraint(equalTo: centerXAnchor),
             movieName.widthAnchor.constraint(equalToConstant: 230),
+            
             languageImage.leadingAnchor.constraint(equalTo: movieName.leadingAnchor, constant: -32),
             languageImage.widthAnchor.constraint(equalToConstant: 20),
             languageImage.heightAnchor.constraint(equalToConstant: 20),
             languageImage.topAnchor.constraint(equalTo: movieName.bottomAnchor, constant: 20),
+            
             languageLabel.leadingAnchor.constraint(equalTo: languageImage.trailingAnchor, constant: 8),
             languageLabel.centerYAnchor.constraint(equalTo: languageImage.centerYAnchor),
+            
             dateImage.centerYAnchor.constraint(equalTo: languageImage.centerYAnchor),
             dateImage.leadingAnchor.constraint(equalTo: languageLabel.trailingAnchor, constant: 32),
             dateImage.widthAnchor.constraint(equalToConstant: 20),
             dateImage.heightAnchor.constraint(equalToConstant: 20),
             dateLabel.leadingAnchor.constraint(equalTo: dateImage.trailingAnchor, constant: 8),
             dateLabel.centerYAnchor.constraint(equalTo: languageImage.centerYAnchor),
+            
             ratingImage.centerYAnchor.constraint(equalTo: languageImage.centerYAnchor),
             ratingImage.leadingAnchor.constraint(equalTo: dateLabel.trailingAnchor, constant: 32),
             ratingImage.widthAnchor.constraint(equalToConstant: 20),
             ratingImage.heightAnchor.constraint(equalToConstant: 20),
             ratingLabel.leadingAnchor.constraint(equalTo: ratingImage.trailingAnchor, constant: 8),
             ratingLabel.centerYAnchor.constraint(equalTo: languageImage.centerYAnchor),
-            ])
+        ])
     }
 }

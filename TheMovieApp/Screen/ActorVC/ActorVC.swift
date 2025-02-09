@@ -29,10 +29,9 @@ class ActorVC: UIViewController {
     
     //MARK: - Life cycle
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         configureUI()
         configureConstraints()
         configureModel()
@@ -51,7 +50,7 @@ class ActorVC: UIViewController {
             collection.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             collection.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             collection.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
-            ])
+        ])
     }
     
     private func configureModel() {
@@ -61,7 +60,6 @@ class ActorVC: UIViewController {
         viewModel.errorHandler = { errorMessage in
             print("Error: \(errorMessage)")
         }
-        
         viewModel.getActors()
     }
 }
@@ -79,7 +77,11 @@ extension ActorVC: UICollectionViewDelegate, UICollectionViewDataSource, UIColle
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        <#code#>
+        let controller = ActorDetailsVC()
+        let model = viewModel.data[indexPath.row]
+        controller.viewModel.actorId = model.id ?? 0
+        controller.viewModel.titleString = model.name ?? ""
+        navigationController?.show(controller, sender: nil)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

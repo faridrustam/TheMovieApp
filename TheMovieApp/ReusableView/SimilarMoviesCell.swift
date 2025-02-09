@@ -26,7 +26,7 @@ class SimilarMoviesCell: UICollectionViewCell {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.minimumLineSpacing = 8
-        layout.sectionInset = .init(top: 0, left: 16, bottom: 0, right: 16)
+        layout.sectionInset = .init(top: 0, left: 16, bottom: 16, right: 16)
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collection.backgroundColor = .systemBackground
         collection.showsHorizontalScrollIndicator = false
@@ -38,22 +38,24 @@ class SimilarMoviesCell: UICollectionViewCell {
     }()
     
     var movieId: Int? {
-            didSet {
-                requestSimilar()
-            }
+        didSet {
+            requestSimilar()
         }
+    }
     var data: [MovieResult] = []
     let manager = NetworkManager()
     var success: (() -> Void)?
     var errorHandler: ((String) -> Void)?
+    var similarDetailAction: ((MovieResult) -> Void)?
     
     //MARK: - Life cycle
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-
+        
         configureUI()
         configureConstraints()
+        configureModel()
     }
     
     required init?(coder: NSCoder) {
@@ -61,14 +63,22 @@ class SimilarMoviesCell: UICollectionViewCell {
     }
     
     private func requestSimilar() {
-        manager.request(path: NetworkHelper.shared.configureSimilarURL(endpoint: MovieEndpoint.similar.rawValue, id: movieId ?? 0),
-                        model: Movie.self) { data, error in
+        manager.request(path: NetworkHelper.shared.configureSimilarURL(endpoint: MovieEndpoint.similar.rawValue, id: movieId ?? 0), model: Movie.self) { data, error in
             if let error {
                 self.errorHandler?(error)
             } else if let data {
                 self.data = data.results ?? []
-                self.collection.reloadData()
+                self.success?()
             }
+        }
+    }
+    
+    func configureModel() {
+        success = { [weak self] in
+            self?.collection.reloadData()
+        }
+        errorHandler = { error in
+            print(error)
         }
     }
     
@@ -104,9 +114,9 @@ extension SimilarMoviesCell: UICollectionViewDataSource, UICollectionViewDelegat
         return cell
     }
     
-    //    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    //        <#code#>
-    //    }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        similarDetailAction?(data[indexPath.item])
+    }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         .init(width: 168, height: 280)

@@ -22,10 +22,15 @@ class TabBarVC: UITabBarController {
         firstVC.tabBarItem = UITabBarItem(title: "Home", image: UIImage(named: "home"), tag: 1)
         firstVC.tabBarItem.imageInsets = UIEdgeInsets(top: 5, left: 0, bottom: -5, right: 0)
         
-        let secondVC = UINavigationController(rootViewController: ActorVC())
-        secondVC.tabBarItem = UITabBarItem(title: "Actors", image: UIImage(systemName: "person.crop.circle"), tag: 2)
+        let secondVC = UINavigationController(rootViewController: SearchVC())
+        secondVC.tabBarItem = UITabBarItem(title: "Search", image: UIImage(systemName: "magnifyingglass"), tag: 2)
         secondVC.tabBarItem.imageInsets = UIEdgeInsets(top: 5, left: 0, bottom: -5, right: 0)
         
-        viewControllers = [firstVC, secondVC]
+        let thirdVC = UINavigationController(rootViewController: ActorVC())
+        thirdVC.tabBarItem = UITabBarItem(title: "Actors", image: UIImage(systemName: "person.crop.circle"), tag: 3)
+        thirdVC.tabBarItem.imageInsets = UIEdgeInsets(top: 5, left: 0, bottom: -5, right: 0)
+        
+        
+        viewControllers = [firstVC, secondVC, thirdVC]
     }
 }

@@ -15,9 +15,7 @@ struct MovieModel {
 class HomeVM {
     //let movie: Movie?
     var movieItems = [MovieModel]()
-    
     let manager = NetworkManager()
-    
     var success: (() -> Void)?
     var errorHandler: ((String) -> Void)?
     

@@ -62,15 +62,17 @@ class HomeCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureConstaints() {
+    private func configureConstaints() {
         addSubview(titleLabel)
         addSubview(seeAllButton)
         addSubview(collection)
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: topAnchor),
             titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 32),
+            
             seeAllButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
             seeAllButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -12),
+            
             collection.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 16),
             collection.bottomAnchor.constraint(equalTo: bottomAnchor),
             collection.leadingAnchor.constraint(equalTo: leadingAnchor),

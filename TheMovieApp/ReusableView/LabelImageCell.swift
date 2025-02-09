@@ -57,7 +57,7 @@ class LabelImageCell: UICollectionViewCell {
             movieNameLabel.topAnchor.constraint(equalTo: movieImageView.bottomAnchor, constant: 8),
             movieNameLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
             movieNameLabel.trailingAnchor.constraint(equalTo: movieImageView.trailingAnchor)
-            ])
+        ])
     }
     
     func configure(data: LabelImageCellProtocol) {

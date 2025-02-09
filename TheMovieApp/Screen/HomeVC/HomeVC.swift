@@ -55,11 +55,9 @@ class HomeVC: UIViewController {
         viewModel.success = { [weak self] in
             self?.collection.reloadData()
         }
-        
         viewModel.errorHandler = { error in
-            
+            print(error)
         }
-        
         viewModel.getAllData()
     }
 }
@@ -78,14 +76,12 @@ extension HomeVC: UICollectionViewDataSource, UICollectionViewDelegate, UICollec
             let controller = SeeAllVC()
             controller.viewModel.configure(movies: model.items)
             controller.viewModel.titleString = model.title
-            controller.hidesBottomBarWhenPushed = true
             self?.navigationController?.show(controller, sender: nil)
         }
         cell.movieDetailAction = { [weak self] data in
             let controller = MovieDetailVC()
             controller.viewModel.setMovie(movie: data)
             controller.viewModel.titleString = data.title
-            controller.hidesBottomBarWhenPushed = true
             self?.navigationController?.show(controller, sender: nil)
         }
         return cell

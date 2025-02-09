@@ -13,7 +13,7 @@ struct Actor: Codable {
     let page: Int?
     let results: [ActorResult]?
     let totalPages, totalResults: Int?
-
+    
     enum CodingKeys: String, CodingKey {
         case page, results
         case totalPages = "total_pages"
@@ -38,7 +38,7 @@ struct ActorResult: Codable, LabelImageCellProtocol {
     let popularity: Double?
     let profilePath: String?
     let knownFor: [KnownFor]?
-
+    
     enum CodingKeys: String, CodingKey {
         case adult, gender, id
         case knownForDepartment = "known_for_department"
@@ -53,7 +53,11 @@ struct ActorResult: Codable, LabelImageCellProtocol {
 // MARK: - KnownFor
 struct KnownFor: Codable, LabelImageCellProtocol {
     var titleText: String {
-        "\(title ?? "") (\(String(releaseDate?.prefix(4) ?? "")))"
+        if releaseDate == nil {
+            return "\(name ?? "") (\(String(firstAirDate?.prefix(4) ?? "")))"
+        } else {
+            return "\(title ?? "") (\(String(releaseDate?.prefix(4) ?? "")))"
+        }
     }
     
     var imageURL: String {
@@ -74,7 +78,7 @@ struct KnownFor: Codable, LabelImageCellProtocol {
     let voteCount: Int?
     let name, originalName, firstAirDate: String?
     let originCountry: [String]?
-
+    
     enum CodingKeys: String, CodingKey {
         case backdropPath = "backdrop_path"
         case id, title

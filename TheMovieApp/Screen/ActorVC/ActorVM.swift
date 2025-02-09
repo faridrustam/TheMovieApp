@@ -9,14 +9,14 @@ import Foundation
 
 class ActorVM {
     var data: [ActorResult] = []
-    let manager = NetworkManager()
+    let manager = ActorManager()
     var success: (() -> Void)?
     var errorHandler: ((String) -> Void)?
     
     func getActors() {
-        manager.request(path: ActorEndpoint.actor.path, model: Actor.self) { data, error in
-            if let error {
-                self.errorHandler?(error)
+        manager.getActorList { data, errorMessage in
+            if let errorMessage {
+                self.errorHandler?(errorMessage)
             } else if let data {
                 self.data = data.results ?? []
                 self.success?()

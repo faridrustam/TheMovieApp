@@ -16,6 +16,7 @@ class MovieDetailVC: UIViewController {
         layout.scrollDirection = .vertical
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collection.translatesAutoresizingMaskIntoConstraints = false
+        collection.showsVerticalScrollIndicator = false
         collection.dataSource = self
         collection.delegate = self
         collection.register(MovieDetailHeaderCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "\(MovieDetailHeaderCell.self)")
@@ -26,10 +27,10 @@ class MovieDetailVC: UIViewController {
     let viewModel = MovieDetailVM()
     
     //MARK: - Life cycle
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         configureUI()
         configureConstraints()
     }
@@ -47,7 +48,7 @@ class MovieDetailVC: UIViewController {
             collection.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collection.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collection.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-            ])
+        ])
     }
 }
 
@@ -59,6 +60,12 @@ extension MovieDetailVC: UICollectionViewDataSource, UICollectionViewDelegate, U
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(SimilarMoviesCell.self)", for: indexPath) as! SimilarMoviesCell
         cell.movieId = viewModel.movie?.id ?? 0
+        cell.similarDetailAction = { [weak self] data in
+            let controller = MovieDetailVC()
+            controller.viewModel.setMovie(movie: data)
+            controller.viewModel.titleString = data.title
+            self?.navigationController?.show(controller, sender: nil)
+        }
         return cell
     }
     

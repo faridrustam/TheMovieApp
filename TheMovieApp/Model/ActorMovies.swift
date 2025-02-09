@@ -1,33 +1,20 @@
 //
-//  Model.swift
-//  TheMovieApp
+//  ActorMovies.swift
+//  MovieApp
 //
-//  Created by Farid Rustamov on 01.02.25.
+//  Created by Mac on 08.02.25.
 //
 
 import Foundation
 
-// MARK: - Welcome
-struct Movie: Codable {
-    let dates: Dates?
-    let page: Int?
-    let results: [MovieResult]?
-    let totalPages, totalResults: Int?
-    
-    enum CodingKeys: String, CodingKey {
-        case dates, page, results
-        case totalPages = "total_pages"
-        case totalResults = "total_results"
-    }
+// MARK: - ActorMovies
+struct ActorMovies: Codable {
+    let cast, crew: [Cast]?
+    let id: Int?
 }
 
-// MARK: - Dates
-struct Dates: Codable {
-    let maximum, minimum: String?
-}
-
-// MARK: - Result
-struct MovieResult: Codable, LabelImageCellProtocol {
+// MARK: - Cast
+struct Cast: Codable, LabelImageCellProtocol {
     var titleText: String {
         "\(title ?? "") (\(String(yearText.prefix(4))))"
     }
@@ -40,6 +27,7 @@ struct MovieResult: Codable, LabelImageCellProtocol {
         posterPath ?? ""
     }
     
+    
     let adult: Bool?
     let backdropPath: String?
     let genreIDS: [Int]?
@@ -47,10 +35,30 @@ struct MovieResult: Codable, LabelImageCellProtocol {
     let originalLanguage: String?
     let originalTitle, overview: String?
     let popularity: Double?
-    let posterPath, releaseDate, title: String?
+    let posterPath: String?
+    let releaseDate, title: String?
     let video: Bool?
     let voteAverage: Double?
     let voteCount: Int?
+    let character, creditID: String?
+    let order: Int?
+    let department, job: String?
+
+    var image: String {
+        posterPath ?? ""
+    }
+    
+    var movieName: String {
+        originalTitle ?? ""
+    }
+    
+    var rating: Double {
+        voteAverage ?? 0
+    }
+    
+    var overviewText: String {
+        overview ?? ""
+    }
     
     enum CodingKeys: String, CodingKey {
         case adult
@@ -65,5 +73,9 @@ struct MovieResult: Codable, LabelImageCellProtocol {
         case title, video
         case voteAverage = "vote_average"
         case voteCount = "vote_count"
+        case character
+        case creditID = "credit_id"
+        case order, department, job
     }
 }
+

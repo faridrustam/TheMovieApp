@@ -1,19 +1,20 @@
 //
-//  SeeAllVC.swift
+//  SearchVC.swift
 //  TheMovieApp
 //
-//  Created by Farid Rustamov on 01.02.25.
+//  Created by Farid Rustamov on 08.02.25.
 //
 
 import UIKit
 
-class SeeAllVC: UIViewController {
+class SearchVC: UIViewController {
     
     //MARK: UI Elements
     
     private let searchView: UIView = {
         let view = UIView()
-        view.layer.borderWidth = 0
+        view.layer.borderWidth = 1
+        view.layer.borderColor = UIColor.systemBlue.cgColor
         view.layer.cornerRadius = 30
         view.backgroundColor = .lightGray
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -24,7 +25,7 @@ class SeeAllVC: UIViewController {
         let field = UITextField()
         field.attributedPlaceholder = NSAttributedString(string: "Search for a movie", attributes: [.foregroundColor: UIColor.white])
         field.font = .systemFont(ofSize: 14, weight: .regular)
-        field.layer.borderColor = UIColor.blue.cgColor
+        field.textColor = .white
         field.addTarget(self, action: #selector(searchMovies), for: .editingChanged)
         field.translatesAutoresizingMaskIntoConstraints = false
         return field
@@ -51,7 +52,7 @@ class SeeAllVC: UIViewController {
         return collection
     }()
     
-    let viewModel = SeeAllVM()
+    let viewModel = SearchVM()
     
     //MARK: - Life cycle
     
@@ -60,18 +61,19 @@ class SeeAllVC: UIViewController {
         
         configureUI()
         configureConstraints()
-        configureViewModel()
+        configureModel()
     }
     
     private func configureUI() {
-        view.backgroundColor = .systemBackground
-        navigationItem.title = viewModel.titleString
-        navigationController?.navigationBar.prefersLargeTitles = false
+        title = "Search"
     }
     
-    private func configureViewModel() {
-        viewModel.completion = { [weak self] in
+    private func configureModel() {
+        viewModel.success = { [weak self] in
             self?.collection.reloadData()
+        }
+        viewModel.errorHandler = { error in
+            print(error)
         }
     }
     
@@ -85,13 +87,16 @@ class SeeAllVC: UIViewController {
             searchView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 12),
             searchView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             searchView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
+            
             searchField.centerYAnchor.constraint(equalTo: searchView.centerYAnchor),
             searchField.leadingAnchor.constraint(equalTo: searchView.leadingAnchor, constant: 24),
             searchField.widthAnchor.constraint(equalToConstant: 270),
+            
             searchImage.widthAnchor.constraint(equalToConstant: 18),
             searchImage.heightAnchor.constraint(equalToConstant: 18),
             searchImage.centerYAnchor.constraint(equalTo: searchField.centerYAnchor),
             searchImage.leadingAnchor.constraint(equalTo: searchField.trailingAnchor, constant: 24),
+            
             collection.topAnchor.constraint(equalTo: searchView.bottomAnchor, constant: 16),
             collection.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             collection.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
@@ -100,41 +105,27 @@ class SeeAllVC: UIViewController {
     }
     
     @objc private func searchMovies() {
-        viewModel.movieSearchChange(searchTextField: searchField.text ?? "") {
-            self.collection.reloadData()
-        }
+        viewModel.changeMovieName(name: searchField.text ?? "No option")
     }
 }
 
-extension SeeAllVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension SearchVC: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if viewModel.filteredMovies.count > 0 {
-            return viewModel.filteredMovies.count
-        } else {
-            return viewModel.movies.count
-        }
+        viewModel.movies.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(LabelImageCell.self)", for: indexPath) as! LabelImageCell
-        if viewModel.filteredMovies.isEmpty {
-            cell.configure(data: viewModel.movies[indexPath.item])
-        } else {
-            cell.configure(data: viewModel.filteredMovies[indexPath.item])
-        }
+        cell.configure(data: viewModel.movies[indexPath.item])
+        
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let controller = MovieDetailVC()
-        if viewModel.filteredMovies.isEmpty {
-            controller.viewModel.movie = viewModel.movies[indexPath.item]
-            controller.viewModel.titleString = viewModel.movies[indexPath.item].title
-        } else {
-            controller.viewModel.movie = viewModel.filteredMovies[indexPath.item]
-            controller.viewModel.titleString = viewModel.movies[indexPath.item].title
-        }
+        controller.viewModel.movie = viewModel.movies[indexPath.item]
+        controller.viewModel.titleString = viewModel.movies[indexPath.item].title
         navigationController?.show(controller, sender: nil)
     }
     
