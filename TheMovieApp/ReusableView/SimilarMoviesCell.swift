@@ -63,7 +63,7 @@ class SimilarMoviesCell: UICollectionViewCell {
     }
     
     private func requestSimilar() {
-        manager.request(path: NetworkHelper.shared.configureSimilarURL(endpoint: MovieEndpoint.similar.rawValue, id: movieId ?? 0), model: Movie.self) { data, error in
+        manager.request(path: NetworkHelper.shared.configureSimilarURL(endpoint: MovieEndpoint.similar.path, id: movieId ?? 0), model: Movie.self) { data, error in
             if let error {
                 self.errorHandler?(error)
             } else if let data {
