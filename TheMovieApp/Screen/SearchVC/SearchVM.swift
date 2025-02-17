@@ -8,6 +8,7 @@
 import Foundation
 
 class SearchVM {
+    var movie: Movie?
     var movies: [MovieResult] = []
     var movieName: String? {
         didSet {
@@ -19,11 +20,13 @@ class SearchVM {
     var errorHandler: ((String) -> Void)?
     
     func fetchMovies() {
-        manager.getSearchList(name: movieName ?? "") { data, errorMessage in
+        print(movie?.page ?? 0)
+        manager.getSearchList(page: (movie?.page ?? 0) + 1, name: movieName ?? "") { data, errorMessage in
             if let errorMessage {
                 self.errorHandler?(errorMessage)
             } else if let data {
-                self.movies = data.results ?? []
+                self.movie = data
+                self.movies.append(contentsOf: data.results ?? [])
                 self.success?()
             }
         }
@@ -32,5 +35,16 @@ class SearchVM {
     func changeMovieName(name: String?) {
         movieName = name
         success?()
+    }
+    
+    func pagination(index: Int) {
+        if index == movies.count - 2 && (movie?.page ?? 0 <= movie?.totalPages ?? 0) {
+            fetchMovies()
+        }
+    }
+    
+    func reset() {
+        movie = nil
+        movies.removeAll()
     }
 }

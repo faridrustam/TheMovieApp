@@ -108,4 +108,15 @@ enum MediaType: String, Codable {
 
 enum KnownForDepartment: String, Codable {
     case acting = "Acting"
+    case visualEffects = "Visual Effects"
+}
+
+enum OriginalLanguage: String, Codable {
+    case en = "en"
+    case id = "id"
+    case ja = "ja"
+    case ko = "ko"
+    case th = "th"
+    case tr = "tr"
+    case zh = "zh"
 }

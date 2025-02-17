@@ -7,14 +7,14 @@
 
 import Foundation
 
-struct HomeModel {
+struct MovieModel {
     let title: String
     let items: [MovieResult]
 }
 
 class HomeVM {
     //let movie: Movie?
-    var movieItems = [HomeModel]()
+    var movieItems = [MovieModel]()
     let manager = MovieManager()
     var success: (() -> Void)?
     var errorHandler: ((String) -> Void)?

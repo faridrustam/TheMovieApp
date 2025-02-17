@@ -37,15 +37,7 @@ class SimilarMoviesCell: UICollectionViewCell {
         return collection
     }()
     
-    var movieId: Int? {
-        didSet {
-            requestSimilar()
-        }
-    }
     var data: [MovieResult] = []
-    let manager = NetworkManager()
-    var success: (() -> Void)?
-    var errorHandler: ((String) -> Void)?
     var similarDetailAction: ((MovieResult) -> Void)?
     
     //MARK: - Life cycle
@@ -55,35 +47,20 @@ class SimilarMoviesCell: UICollectionViewCell {
         
         configureUI()
         configureConstraints()
-        configureModel()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func requestSimilar() {
-        manager.request(path: NetworkHelper.shared.configureSimilarURL(endpoint: MovieEndpoint.similar.path, id: movieId ?? 0), model: Movie.self) { data, error in
-            if let error {
-                self.errorHandler?(error)
-            } else if let data {
-                self.data = data.results ?? []
-                self.success?()
-            }
-        }
-    }
-    
-    func configureModel() {
-        success = { [weak self] in
-            self?.collection.reloadData()
-        }
-        errorHandler = { error in
-            print(error)
-        }
-    }
-    
     private func configureUI() {
         backgroundColor = .clear
+    }
+    
+    func getData(data: [MovieResult]){
+        self.data = data
+        print("Cell data: \(data)")
+        collection.reloadData()
     }
     
     private func configureConstraints() {

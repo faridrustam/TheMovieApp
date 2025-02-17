@@ -14,4 +14,9 @@ class MovieManager {
         let path = endpoint.path
         manager.request(path: path, model: Movie.self, completion: completion)
     }
+    
+    func getSimilarMovieList(id: Int, completion: @escaping((Movie?, String?) -> Void)) {
+        let path = MovieEndpoint.similar(id: id).path
+        manager.request(path: path, model: Movie.self, completion: completion)
+    }
 }

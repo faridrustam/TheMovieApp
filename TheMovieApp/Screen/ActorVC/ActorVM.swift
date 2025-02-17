@@ -15,10 +15,12 @@ class ActorVM {
     var errorHandler: ((String) -> Void)?
     
     func getActors() {
-        manager.getActorList(page: (actor?.page ?? -1) + 1) { data, errorMessage in
+        print(actor?.page ?? 0)
+        manager.getActorList(page: (actor?.page ?? 0) + 1) { data, errorMessage in
             if let errorMessage {
                 self.errorHandler?(errorMessage)
             } else if let data {
+                self.actor = data
                 self.data.append(contentsOf: data.results ?? [])
                 self.success?()
             }

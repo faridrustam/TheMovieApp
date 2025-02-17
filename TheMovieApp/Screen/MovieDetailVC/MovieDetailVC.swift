@@ -25,6 +25,7 @@ class MovieDetailVC: UIViewController {
     }()
     
     let viewModel = MovieDetailVM()
+    var manger = MovieManager()
     
     //MARK: - Life cycle
     
@@ -33,6 +34,7 @@ class MovieDetailVC: UIViewController {
         
         configureUI()
         configureConstraints()
+        configureModel()
     }
     
     private func configureUI() {
@@ -50,6 +52,16 @@ class MovieDetailVC: UIViewController {
             collection.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
+    
+    private func configureModel() {
+        viewModel.success = { [weak self] in
+            self?.collection.reloadData()
+        }
+        viewModel.errorHandler = { error in
+            print(error)
+        }
+        viewModel.getSimilarMovies()
+    }
 }
 
 extension MovieDetailVC: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
@@ -59,7 +71,8 @@ extension MovieDetailVC: UICollectionViewDataSource, UICollectionViewDelegate, U
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(SimilarMoviesCell.self)", for: indexPath) as! SimilarMoviesCell
-        cell.movieId = viewModel.movie?.id ?? 0
+        cell.getData(data: viewModel.data)
+        print("oturulen data: \(viewModel.data)")
         cell.similarDetailAction = { [weak self] data in
             let controller = MovieDetailVC()
             controller.viewModel.setMovie(movie: data)

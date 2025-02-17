@@ -8,14 +8,14 @@
 import Foundation
 
 protocol SearchManagerUseCase {
-    func getSearchList(name: String, completion: @escaping ((Movie?, String?) -> Void))
+    func getSearchList(page: Int, name: String, completion: @escaping ((Movie?, String?) -> Void))
 }
 
 class SearchManager: SearchManagerUseCase {
     let manager = NetworkManager()
     
-    func getSearchList(name: String, completion: @escaping ((Movie?, String?) -> Void)) {
-        let path = SearchEndpoint.movie(name: name).path
+    func getSearchList(page: Int, name: String, completion: @escaping ((Movie?, String?) -> Void)) {
+        let path = SearchEndpoint.movie(name: name, page: page).path
         manager.request(path: path, model: Movie.self, completion: completion)
     }
 }

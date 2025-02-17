@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SearchVC: UIViewController {
+class SearchVC: UIViewController, UITextFieldDelegate {
     
     //MARK: UI Elements
     
@@ -26,7 +26,7 @@ class SearchVC: UIViewController {
         field.attributedPlaceholder = NSAttributedString(string: "Search for a movie", attributes: [.foregroundColor: UIColor.white])
         field.font = .systemFont(ofSize: 14, weight: .regular)
         field.textColor = .white
-        field.addTarget(self, action: #selector(searchMovies), for: .editingChanged)
+        field.addTarget(self, action: #selector(searchMovies), for: .primaryActionTriggered)
         field.translatesAutoresizingMaskIntoConstraints = false
         return field
     }()
@@ -54,6 +54,8 @@ class SearchVC: UIViewController {
     
     let viewModel = SearchVM()
     
+    let refreshControl = UIRefreshControl()
+    
     //MARK: - Life cycle
     
     override func viewDidLoad() {
@@ -66,11 +68,14 @@ class SearchVC: UIViewController {
     
     private func configureUI() {
         title = "Search"
+        collection.refreshControl = refreshControl
+        refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
     }
     
     private func configureModel() {
         viewModel.success = { [weak self] in
             self?.collection.reloadData()
+            self?.refreshControl.endRefreshing()
         }
         viewModel.errorHandler = { error in
             print(error)
@@ -105,7 +110,15 @@ class SearchVC: UIViewController {
     }
     
     @objc private func searchMovies() {
+        viewModel.reset()
+        collection.reloadData()
         viewModel.changeMovieName(name: searchField.text ?? "No option")
+    }
+    
+    @objc private func refreshData() {
+        viewModel.reset()
+        collection.reloadData()
+        viewModel.fetchMovies()
     }
 }
 
@@ -133,9 +146,7 @@ extension SearchVC: UICollectionViewDataSource, UICollectionViewDelegate, UIColl
         .init(width: 168, height: 280)
     }
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if ((scrollView.contentOffset.y + scrollView.frame.size.height) > scrollView.contentSize.height) {
-            print("scrolled")
-        }
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        viewModel.pagination(index: indexPath.item)
     }
 }

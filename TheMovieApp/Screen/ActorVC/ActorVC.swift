@@ -27,6 +27,8 @@ class ActorVC: UIViewController {
     
     let viewModel = ActorVM()
     
+    let refreshControl = UIRefreshControl()
+    
     //MARK: - Life cycle
     
     override func viewDidLoad() {
@@ -40,6 +42,10 @@ class ActorVC: UIViewController {
     private func configureUI() {
         navigationItem.title = "Actor List"
         view.backgroundColor = .systemBackground
+        
+        refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
+        collection.refreshControl = refreshControl
+        
     }
     
     private func configureConstraints() {
@@ -56,10 +62,18 @@ class ActorVC: UIViewController {
     private func configureModel() {
         viewModel.success = { [weak self] in
             self?.collection.reloadData()
+            self?.refreshControl.endRefreshing()
         }
         viewModel.errorHandler = { errorMessage in
             print("Error: \(errorMessage)")
+            self.refreshControl.endRefreshing()
         }
+        viewModel.getActors()
+    }
+    
+    @objc private func refreshData() {
+        viewModel.reset()
+        collection.reloadData()
         viewModel.getActors()
     }
 }
