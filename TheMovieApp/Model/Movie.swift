@@ -29,7 +29,11 @@ struct Dates: Codable {
 // MARK: - Result
 struct MovieResult: Codable, LabelImageCellProtocol {
     var titleText: String {
-        "\(title ?? "") (\(String(yearText.prefix(4))))"
+        if yearText == "" {
+            "\(title ?? "")"
+        } else {
+            "\(title ?? "") (\(String(yearText.prefix(4))))"
+        }
     }
     
     var yearText: String {

@@ -25,3 +25,22 @@ extension MovieResult {
         self.voteCount = cast.voteCount
     }
 }
+
+extension MovieResult {
+    init(id: Int?, title: String?, posterPath: String?) {
+        self.adult = nil
+        self.backdropPath = nil
+        self.genreIDS = nil
+        self.id = id
+        self.originalLanguage = nil
+        self.originalTitle = nil
+        self.overview = nil
+        self.popularity = nil
+        self.posterPath = posterPath
+        self.releaseDate = nil
+        self.title = title
+        self.video = nil
+        self.voteAverage = nil
+        self.voteCount = nil
+    }
+}

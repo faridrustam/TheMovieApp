@@ -26,7 +26,7 @@ class SearchVC: UIViewController, UITextFieldDelegate {
         field.attributedPlaceholder = NSAttributedString(string: "Search for a movie", attributes: [.foregroundColor: UIColor.white])
         field.font = .systemFont(ofSize: 14, weight: .regular)
         field.textColor = .white
-        field.addTarget(self, action: #selector(searchMovies), for: .primaryActionTriggered)
+        field.addTarget(self, action: #selector(searchMovies), for: .editingChanged)
         field.translatesAutoresizingMaskIntoConstraints = false
         return field
     }()

@@ -26,7 +26,6 @@ class ActorVC: UIViewController {
     }()
     
     let viewModel = ActorVM()
-    
     let refreshControl = UIRefreshControl()
     
     //MARK: - Life cycle

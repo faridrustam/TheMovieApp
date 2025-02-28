@@ -8,6 +8,7 @@
 import Foundation
 
 class SeeAllVM {
+    var movie: Movie?
     var movies: [MovieResult] = []
     var filteredMovies: [MovieResult] = []
     var titleString: String?
@@ -19,7 +20,7 @@ class SeeAllVM {
     }
     
     func filterSearch(searchText: String, completion: (() -> Void)?) {
-        filteredMovies = movies.filter {
+        movies = movies.filter {
             ($0.title?.lowercased().contains(searchText.lowercased()) ?? false)
         }
         completion?()
@@ -33,6 +34,12 @@ class SeeAllVM {
             filterSearch(searchText: searchTextField) {
                 completion?()
             }
+        }
+    }
+    
+    func pagination(index: Int) {
+        if index == movies.count - 2 && (movie?.page ?? 0 <= movie?.totalPages ?? 0) {
+            
         }
     }
 }

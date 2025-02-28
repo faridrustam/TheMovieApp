@@ -30,7 +30,10 @@ class TabBarVC: UITabBarController {
         thirdVC.tabBarItem = UITabBarItem(title: "Actors", image: UIImage(systemName: "person.crop.circle"), tag: 3)
         thirdVC.tabBarItem.imageInsets = UIEdgeInsets(top: 5, left: 0, bottom: -5, right: 0)
         
+        let fourthVC = UINavigationController(rootViewController: FavoritesVC())
+        fourthVC.tabBarItem = UITabBarItem(title: "Favorites", image: UIImage(systemName: "star"), tag: 4)
+        fourthVC.tabBarItem.imageInsets = UIEdgeInsets(top: 5, left: 0, bottom: -5, right: 0)
         
-        viewControllers = [firstVC, secondVC, thirdVC]
+        viewControllers = [firstVC, secondVC, thirdVC, fourthVC]
     }
 }

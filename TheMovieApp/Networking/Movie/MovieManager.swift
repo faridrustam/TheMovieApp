@@ -7,7 +7,12 @@
 
 import Foundation
 
-class MovieManager {
+protocol MovieManagerUseCase {
+    func getMovieList(endpoint: MovieEndpoint, completion: @escaping((Movie?, String?) -> Void))
+    func getSimilarMovieList(id: Int, completion: @escaping((Movie?, String?) -> Void))
+}
+
+class MovieManager: MovieManagerUseCase {
     let manager = NetworkManager()
     
     func getMovieList(endpoint: MovieEndpoint, completion: @escaping((Movie?, String?) -> Void)) {

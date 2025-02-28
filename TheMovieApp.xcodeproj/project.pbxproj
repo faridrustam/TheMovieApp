@@ -9,6 +9,12 @@
 /* Begin PBXBuildFile section */
 		B7B679CE2D4D2AA5008B257E /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = B7B679CD2D4D2AA5008B257E /* SDWebImage */; };
 		B7B679DD2D4E0E47008B257E /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = B7B679DC2D4E0E47008B257E /* Alamofire */; };
+		B7B927492D663794008114A1 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = B7B927482D663794008114A1 /* FirebaseAnalytics */; };
+		B7B9274B2D663794008114A1 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = B7B9274A2D663794008114A1 /* FirebaseAuth */; };
+		B7B9274D2D663794008114A1 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = B7B9274C2D663794008114A1 /* FirebaseCore */; };
+		B7B9274F2D663794008114A1 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = B7B9274E2D663794008114A1 /* FirebaseCrashlytics */; };
+		B7B927512D663794008114A1 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = B7B927502D663794008114A1 /* FirebaseFirestore */; };
+		B7B927532D663794008114A1 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = B7B927522D663794008114A1 /* FirebaseStorage */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,7 +77,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				B7B679CE2D4D2AA5008B257E /* SDWebImage in Frameworks */,
+				B7B9274D2D663794008114A1 /* FirebaseCore in Frameworks */,
 				B7B679DD2D4E0E47008B257E /* Alamofire in Frameworks */,
+				B7B9274F2D663794008114A1 /* FirebaseCrashlytics in Frameworks */,
+				B7B927492D663794008114A1 /* FirebaseAnalytics in Frameworks */,
+				B7B927532D663794008114A1 /* FirebaseStorage in Frameworks */,
+				B7B9274B2D663794008114A1 /* FirebaseAuth in Frameworks */,
+				B7B927512D663794008114A1 /* FirebaseFirestore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -134,6 +146,12 @@
 			packageProductDependencies = (
 				B7B679CD2D4D2AA5008B257E /* SDWebImage */,
 				B7B679DC2D4E0E47008B257E /* Alamofire */,
+				B7B927482D663794008114A1 /* FirebaseAnalytics */,
+				B7B9274A2D663794008114A1 /* FirebaseAuth */,
+				B7B9274C2D663794008114A1 /* FirebaseCore */,
+				B7B9274E2D663794008114A1 /* FirebaseCrashlytics */,
+				B7B927502D663794008114A1 /* FirebaseFirestore */,
+				B7B927522D663794008114A1 /* FirebaseStorage */,
 			);
 			productName = TheMovieApp;
 			productReference = B7B679812D4D2314008B257E /* TheMovieApp.app */;
@@ -220,6 +238,7 @@
 			packageReferences = (
 				B7B679CC2D4D2AA5008B257E /* XCRemoteSwiftPackageReference "SDWebImage" */,
 				B7B679DB2D4E0E47008B257E /* XCRemoteSwiftPackageReference "Alamofire" */,
+				B7B927472D663794008114A1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = B7B679822D4D2314008B257E /* Products */;
@@ -308,6 +327,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -334,6 +354,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -592,6 +613,14 @@
 				minimumVersion = 5.10.2;
 			};
 		};
+		B7B927472D663794008114A1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.8.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -604,6 +633,36 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B7B679DB2D4E0E47008B257E /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
+		};
+		B7B927482D663794008114A1 /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B7B927472D663794008114A1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		B7B9274A2D663794008114A1 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B7B927472D663794008114A1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		B7B9274C2D663794008114A1 /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B7B927472D663794008114A1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCore;
+		};
+		B7B9274E2D663794008114A1 /* FirebaseCrashlytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B7B927472D663794008114A1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCrashlytics;
+		};
+		B7B927502D663794008114A1 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B7B927472D663794008114A1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		B7B927522D663794008114A1 /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B7B927472D663794008114A1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

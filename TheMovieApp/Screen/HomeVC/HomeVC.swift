@@ -24,6 +24,7 @@ class HomeVC: UIViewController {
     }()
     
     let viewModel = HomeVM()
+    let refreshControl = UIRefreshControl()
     
     //MARK: - Life cycle
     
@@ -39,6 +40,8 @@ class HomeVC: UIViewController {
         view.backgroundColor = .systemBackground
         navigationItem.title = "Movies"
         navigationController?.navigationBar.prefersLargeTitles = true
+        refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
+        collection.refreshControl = refreshControl
     }
     
     fileprivate func configureConstraints() {
@@ -54,10 +57,25 @@ class HomeVC: UIViewController {
     fileprivate func configureViewModel() {
         viewModel.success = { [weak self] in
             self?.collection.reloadData()
+            self?.refreshControl.endRefreshing()
         }
         viewModel.errorHandler = { error in
             print(error)
+            self.refreshControl.endRefreshing()
         }
+        viewModel.getAllData()
+        FirestoreManager.shared.fetchMoviesFromFireStore { result, error in
+            if let error {
+                print(error)
+            } else if let result {
+                self.viewModel.movies.append(contentsOf: result)
+            }
+        }
+    }
+    
+    @objc private func refreshData() {
+        viewModel.reset()
+        collection.reloadData()
         viewModel.getAllData()
     }
 }
@@ -70,7 +88,7 @@ extension HomeVC: UICollectionViewDataSource, UICollectionViewDelegate, UICollec
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(HomeCell.self)", for: indexPath) as! HomeCell
-        let model = viewModel.movieItems[indexPath.row]
+        let model = viewModel.movieItems[indexPath.item]
         cell.configure(title: model.title, data: model.items)
         cell.seeAllAction = { [weak self] in
             let controller = SeeAllVC()

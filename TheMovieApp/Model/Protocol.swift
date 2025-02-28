@@ -11,3 +11,8 @@ protocol LabelImageCellProtocol {
     var titleText: String { get }
     var imageURL: String { get }
 }
+
+protocol HorizontalCellProtocol {
+    var titleImage: String { get }
+    var imageURL: String { get }
+}

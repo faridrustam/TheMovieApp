@@ -25,7 +25,6 @@ class MovieDetailVC: UIViewController {
     }()
     
     let viewModel = MovieDetailVM()
-    var manger = MovieManager()
     
     //MARK: - Life cycle
     
@@ -41,6 +40,7 @@ class MovieDetailVC: UIViewController {
         view.backgroundColor = .systemBackground
         title = viewModel.titleString ?? ""
         navigationController?.navigationBar.prefersLargeTitles = false
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "star"), style: .plain, target: self, action: #selector(favoriteTapped))
     }
     
     private func configureConstraints() {
@@ -62,6 +62,17 @@ class MovieDetailVC: UIViewController {
         }
         viewModel.getSimilarMovies()
     }
+    
+    @objc private func favoriteTapped() {
+        guard let movie = viewModel.movie else { return }
+        FirestoreManager.shared.saveMovieToFireStore(movie: movie) { error in
+            if let error {
+                self.showAlert(message: error)
+            } else {
+                self.showAlert(title: "Success", message: "Movie added to favorites successfully!")
+            }
+        }
+    }
 }
 
 extension MovieDetailVC: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
@@ -72,7 +83,6 @@ extension MovieDetailVC: UICollectionViewDataSource, UICollectionViewDelegate, U
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(SimilarMoviesCell.self)", for: indexPath) as! SimilarMoviesCell
         cell.getData(data: viewModel.data)
-        print("oturulen data: \(viewModel.data)")
         cell.similarDetailAction = { [weak self] data in
             let controller = MovieDetailVC()
             controller.viewModel.setMovie(movie: data)

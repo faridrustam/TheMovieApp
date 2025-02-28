@@ -25,7 +25,6 @@ class MovieDetailVM {
                 self.errorHandler?(errorMessage)
             } else if let data {
                 self.data = data.results ?? []
-                print(self.data)
                 self.success?()
             }
         }
